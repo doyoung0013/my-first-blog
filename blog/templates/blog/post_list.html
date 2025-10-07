@@ -1,32 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Django Girls Blog</title>
+    <title>Django Blog</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 </head>
 <body>
-    <div>
-        <h1><a href="">Django Girls Blog</a></h1>
-    </div>
+    <header class="header">
+        <h1><a href="/">DOYOUNG's DJANGO BLOG</a></h1>
+        <p class="subtitle">모바일/웹 서비스 프로젝트 실습과제</p>
+    </header>
 
-    <div>
-        <p>published: 14.06.2014, 12:14</p>
-        <h2><a href="">My first post</a></h2>
-        <p>
-            Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,
-            tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-        </p>
-    </div>
+    <main class="container">
+        {% for post in posts %}
+            <article class="post-card">
+                {% if post.image %}
+                    <div class="image-wrapper">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                    </div>
+                {% endif %}
+                <div class="post-content">
+                    <h2 class="post-title">{{ post.title }}</h2>
+                    <p class="post-date">{{ post.published_date|date:"Y-m-d H:i" }}</p>
+                    <p class="post-text">{{ post.text|truncatechars:150|linebreaksbr }}</p>
+                </div>
+            </article>
+        {% empty %}
+            <p class="empty">아직 게시물이 없습니다 🌱</p>
+        {% endfor %}
+    </main>
 
-    <div>
-        <p>published: 14.06.2014, 12:14</p>
-        <h2><a href="">My second post</a></h2>
-        <p>
-            Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,
-            tortor mauris condimentum nibh, ut f.
-        </p>
-    </div>
+    <footer class="footer">
+        <p>© 2025 <strong>Django Blog</strong> | Designed with ❤️ by DoYoung</p>
+    </footer>
 </body>
 </html>
